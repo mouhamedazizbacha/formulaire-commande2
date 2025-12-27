@@ -1,0 +1,36 @@
+<form id="commandeForm">
+  <input name="nomPrenom" placeholder="Nom et Prénom" required>
+  <input name="numero" placeholder="Numéro" required>
+  <input name="quantite" type="number" placeholder="Quantité" required>
+
+  <select name="article" required>
+    <option value="">Choisir un article</option>
+    <option value="Article A">Article A</option>
+    <option value="Article B">Article B</option>
+  </select>
+
+  <button type="submit">Envoyer</button>
+</form>
+
+<script>
+document.getElementById("commandeForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  fetch("https://script.google.com/macros/s/AKfycbwFUZIvSTKzwoI7mUI-v929QA4ZPX-cFlFc_W84C-3MVW-ObXk6Jc5uQ7jUJhlotdQ8/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomPrenom: this.nomPrenom.value,
+      numero: this.numero.value,
+      quantite: this.quantite.value,
+      article: this.article.value
+    })
+  })
+  .then(res => res.json())
+  .then(() => {
+    alert("Commande envoyée avec succès !");
+    this.reset();
+  })
+  .catch(err => alert("Erreur d'envoi"));
+});
+</script>
